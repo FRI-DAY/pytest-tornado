@@ -9,6 +9,7 @@ import tornado.gen
 import tornado.testing
 import tornado.httpserver
 import tornado.httpclient
+import tornado.process
 
 if sys.version_info[:2] >= (3, 5):
     iscoroutinefunction = inspect.iscoroutinefunction
@@ -132,6 +133,7 @@ def io_loop(request):
     io_loop.make_current()
 
     def _close():
+        tornado.process.Subprocess.uninitialize()
         io_loop.clear_current()
         io_loop.close(all_fds=True)
 
